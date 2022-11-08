@@ -1,0 +1,29 @@
+{{define "title"}}Home{{end}}
+
+{{define "main"}}
+    <div class="notes">
+        <div class="note_sidebar">
+            {{template "nav" .}}
+                <h2>Latest Notes</h2>
+                {{if .Snippets}}
+                    {{range .Snippets}}
+                        <div class="note">
+                            <div><a href='/snippet/view/{{.ID}}' class="note_tittle">{{.Title}}</a></div>
+<!--                            <td class = "id">#{{.ID}}</td>-->
+                            <td>{{.Created | humanDate}}</td>
+                        </div>
+                    {{end}}
+                {{else}}
+                    <p>There's nothing to see here... yet!</p>
+                {{end}}
+        </div>
+        <div class="notes_preview">
+            {{range $i, $e := .Snippets}}{{if lt $i 1}}
+                <strong class="notes_preview_tittle">{{.Title}}</strong>
+                <pre><code>{{.Content}}</code></pre>
+            {{end}}{{end}}
+        </div>
+    </div>
+{{end}}
+
+
