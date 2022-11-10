@@ -27,6 +27,7 @@ type application struct {
 }
 
 func main() {
+	// testing
 	addr := flag.String("addr", "localhost:4000", "HTTP network address") //
 	dsn := flag.String("dsn", "postgresql://youruser:1234@localhost:5432/go_lang", "Postgres data source name")
 	flag.Parse()
@@ -68,7 +69,6 @@ func main() {
 	infoLog.Printf("Starting server on %s", *addr)
 	err = srv.ListenAndServe()
 	errorLog.Fatal(err)
-
 }
 
 func openDB(dsn string) (*pgxpool.Pool, error) {
