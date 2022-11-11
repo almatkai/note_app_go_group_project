@@ -17,7 +17,7 @@ body {
     line-height: 1.5;
     background-color: #ffffff;
     color: #34495E;
-    overflow-y: scroll;
+    overflow-y: hidden;
     font-size: 16px;
 }
 
@@ -80,8 +80,6 @@ header {
     background-repeat: no-repeat;
     border-bottom: 1px solid #E4E5E7;
     overflow: auto;
-    padding-top: 33px;
-    padding-bottom: 27px;
     text-align: center;
 }
 
@@ -90,14 +88,13 @@ header a {
     text-decoration: none;
 }
 
-/*nav {*/
-/*    border-bottom: 1px solid #E4E5E7;*/
-/*    padding-top: 17px;*/
-/*    padding-bottom: 15px;*/
-/*    background: #F7F9FA;*/
-/*    height: 60px;*/
-/*    color: #6A6C6F;*/
-/*}*/
+nav {
+    border-bottom: 1px solid #E4E5E7;
+    padding: 20px;
+    background: #F7F9FA;
+   height: 60px;
+   color: #6A6C6F;
+}
 
 nav a {
     margin-right: 1.5em;
@@ -151,7 +148,7 @@ a.button, input[type="submit"] {
     background-color: #2a3d4d;
     border-radius: 3px;
     color: #FFFFFF;
-    padding: 18px 27px;
+    padding: 9px 27px;
     border: none;
     display: inline-block;
     margin-top: 18px;
@@ -324,11 +321,10 @@ button:hover {
 .note_sidebar{
     border-right: 2px solid #dddddd;
     flex-shrink: 0;
-    overflow-y: auto;
+    overflow-y: scroll;
     padding: 1em;
     width: 280px;
     font-size: 12px;
-    resize: horizontal;
     min-width: 220px;
 }
 .notes_preview {
@@ -339,14 +335,16 @@ button:hover {
 }
 .note{
     margin: 10px;
-    margin-left: 0px;
+    margin-left: 10px;
     padding: -2px;
     padding-left: 1px;
+    border: 2px solid #ababab;
 }
 .id {
     display: none;
 }
 #note_tittle{
+    margin-left: 3px;
     font-size: 16px;
 }
 #note_tittle:hover{
@@ -367,7 +365,7 @@ button:hover {
     float: right;
 }
 footer {
-    
+    position: absolute;
     bottom: 0;
     width: 100%;
      border-top: 1px solid #E4E5E7;
@@ -378,3 +376,14 @@ footer {
      color: #6A6C6F;
      text-align: center;
  }
+
+.twobuttons {
+    float: right;
+    padding: 30px;
+    padding-top: 12px;
+}
+
+.apptitle{
+    display: inline;
+    margin-left:200px;
+}
