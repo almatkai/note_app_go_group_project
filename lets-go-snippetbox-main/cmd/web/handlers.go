@@ -31,7 +31,9 @@ type userLoginForm struct {
 }
 
 func (app *application) home(w http.ResponseWriter, r *http.Request) {
-	snippets, err := app.snippets.Latest(r.Context())
+	user_id := app.sessionManager.GetInt(r.Context(), "authenticatedUserID")
+
+	snippets, err := app.snippets.Latest(r.Context(), user_id)
 	if err != nil {
 		app.serverError(w, err)
 		return
@@ -45,15 +47,16 @@ func (app *application) home(w http.ResponseWriter, r *http.Request) {
 
 func (app *application) snippetView(w http.ResponseWriter, r *http.Request) {
 	params := httprouter.ParamsFromContext(r.Context())
+	user_id := app.sessionManager.GetInt(r.Context(), "authenticatedUserID")
 
 	id, err := strconv.Atoi(params.ByName("id"))
 	if err != nil || id < 1 {
 		app.notFound(w)
 		return
 	}
-	snippet, err := app.snippets.Get(r.Context(), id)
+	snippet, err := app.snippets.Get(r.Context(), id, user_id)
 	if err != nil {
-		if errors.Is(err, models.ErrNoRecord) {
+		if errors.As(err, &models.ErrNoRecord) {
 			app.notFound(w)
 		} else {
 			app.serverError(w, err)
@@ -104,8 +107,11 @@ func (app *application) snippetCreatePost(w http.ResponseWriter, r *http.Request
 		app.render(w, http.StatusUnprocessableEntity, "create.html", data)
 		return
 	}
-
-	id, err := app.snippets.Insert(r.Context(), form.Title, form.Content, form.Expires)
+	user_id := app.sessionManager.GetInt(r.Context(), "authenticatedUserID")
+	if user_id == 0 {
+		app.notFound(w)
+	}
+	id, err := app.snippets.Insert(r.Context(), form.Title, form.Content, form.Expires, user_id)
 	if err != nil {
 		app.serverError(w, err)
 		return
