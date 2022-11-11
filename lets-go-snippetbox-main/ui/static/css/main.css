@@ -326,10 +326,11 @@ button:hover {
     flex-shrink: 0;
     overflow-y: auto;
     padding: 1em;
-    width: 280px;
+    width: 300px;
     font-size: 12px;
     resize: horizontal;
-    min-width: 220px;
+    min-width: 300px;
+    max-width: 50%;
 }
 .notes_preview {
     display: flex;
@@ -366,8 +367,22 @@ button:hover {
 .submit_button{
     float: right;
 }
+nav{
+    background: #5f76b1;
+    height: 20px;
+    max-height: 40px;
+    padding-right: 3px;
+    padding-left: 3px;
+    color: white;
+}
+.nav_links{
+    color: white;
+}
+#nav_home{
+    color: white;
+}
+
 footer {
-    
     bottom: 0;
     width: 100%;
      border-top: 1px solid #E4E5E7;
