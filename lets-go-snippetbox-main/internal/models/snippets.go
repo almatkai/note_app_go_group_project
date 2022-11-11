@@ -36,24 +36,6 @@ func (m *SnippetModel) Insert(ctx context.Context, title string, content string,
 	return id, nil
 }
 
-func (m *SnippetModel) GetId(ctx context.Context, id int) (*Snippet, error) {
-	query := `SELECT id, title, content, created, expires FROM snippets
-	WHERE expires > NOW() and id = $1`
-	row := m.DB.QueryRow(ctx, query, id)
-
-	s := &Snippet{}
-	err := row.Scan(&s.ID, &s.Title, &s.Content, &s.Created, &s.Expires)
-	if err != nil {
-		if errors.Is(err, pgx.ErrNoRows) {
-			return nil, ErrNoRecord
-		} else {
-			return nil, err
-		}
-	}
-
-	return s, nil
-}
-
 func (m *SnippetModel) Get(ctx context.Context, id int) ([]*Snippet, error) {
 	query := `SELECT id, title, content, created, expires FROM snippets
 	WHERE expires > NOW() and id <> $1
