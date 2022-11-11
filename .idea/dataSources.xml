@@ -8,5 +8,12 @@
       <jdbc-url>jdbc:postgresql://localhost:5432/go_lang</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
+    <data-source source="LOCAL" name="web_user@snippetbox" uuid="896a5d4c-e64e-48c5-a163-4e94f41f8f19">
+      <driver-ref>postgresql</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>org.postgresql.Driver</jdbc-driver>
+      <jdbc-url>jdbc:postgresql://localhost:5432/snippetbox</jdbc-url>
+      <working-dir>$ProjectFileDir$</working-dir>
+    </data-source>
   </component>
 </project>

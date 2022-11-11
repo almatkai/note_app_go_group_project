@@ -22,7 +22,8 @@ require (
 	github.com/jackc/pgx/v4 v4.10.1 // indirect
 	github.com/jackc/puddle v1.1.3 // indirect
 	github.com/jackc/puddle/v2 v2.1.0 // indirect
-	golang.org/x/crypto v0.1.0 // indirect
+	github.com/justinas/nosurf v1.1.1 // indirect
+	golang.org/x/crypto v0.2.0 // indirect
 	golang.org/x/sync v0.1.0 // indirect
 	golang.org/x/text v0.4.0 // indirect
 	golang.org/x/xerrors v0.0.0-20191204190536-9bdfabe68543 // indirect
