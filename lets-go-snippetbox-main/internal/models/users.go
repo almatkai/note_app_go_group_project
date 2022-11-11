@@ -3,8 +3,6 @@ package models
 import (
 	"context"
 	"errors"
-	"fmt"
-	"github.com/jackc/pgconn"
 	"github.com/jackc/pgx/v4"
 	"github.com/jackc/pgx/v4/pgxpool"
 	"golang.org/x/crypto/bcrypt"
@@ -33,11 +31,10 @@ func (m *UserModel) Insert(name, email, password string) error {
 	_, err = m.DB.Exec(context.Background(), stmt, name, email, string(hashedPassword))
 	if err != nil {
 
-		var pgErr *pgconn.PgError
-		fmt.Println(pgErr)
+		//var pgErr *pgconn.PgError
+		//fmt.Println(pgErr)
 		//if errors.As(err, &myError) {
 		//	if myError.Code == "23505" && strings.Contains(myError.Message, "users_uc_email") {
-		//		fmt.Println("And i also was here...")
 		//		return ErrDuplicateEmail
 		//	}
 		//}
