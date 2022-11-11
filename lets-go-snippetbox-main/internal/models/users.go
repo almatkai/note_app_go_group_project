@@ -30,7 +30,9 @@ func (m *UserModel) Insert(name, email, password string) error {
 
 	_, err = m.DB.Exec(context.Background(), stmt, name, email, string(hashedPassword))
 	if err != nil {
-
+		if errors.As(err, &ErrDuplicateEmail) {
+			return ErrDuplicateEmail
+		}
 		return err
 	}
 	return nil
