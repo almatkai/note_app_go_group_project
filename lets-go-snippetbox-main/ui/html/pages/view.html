@@ -2,29 +2,30 @@
 {{define "title"}}View{{end}}
 
 {{define "main"}}
-<div class="notes">
-    <div class="note_sidebar">
-        {{template "nav" .}}
-        <div id="list-notes">
-            {{if .Snippets}}
-            {{range .Snippets}}
-            <div class="note">
-                <a href='/snippet/view/{{.ID}}' id="note_tittle">{{.Title}}</a>
-                <br>
-                <!--                            <td class = "id">#{{.ID}}</td>-->
-                <td>{{.Created | humanDate}}</td>
+    <div class="notes">
+        <div class="note_sidebar">
+            {{template "nav" .}}
+            <div id="list-notes">
+                {{if .Snippets}}
+                    {{range .Snippets}}
+                        <div class="note">
+                            <a href='/snippet/view/{{.ID}}' id="note_tittle">{{.Title}}</a>
+                            <br>
+                            <!--                            <td class = "id">#{{.ID}}</td>-->
+                            <td>{{.Created | humanDate}}</td>
+                        </div>
+                    {{end}}
+                {{else}}
+                    <p>There's nothing to see here... yet!</p>
+                {{end}}
             </div>
-            {{end}}
-            {{else}}
-            <p>There's nothing to see here... yet!</p>
-            {{end}}
+        </div>
+        <div class="notes_preview">
+            {{range $i, $e := .Snippets}}{{if lt $i 1}}
+                <strong class="notes_preview_tittle">{{.Title}}</strong>
+                <pre><code>{{.Content}}</code></pre>
+                <a href="/snippet/update/{{.ID}}">Edit</a>
+            {{end}}{{end}}
         </div>
     </div>
-    <div class="notes_preview">
-        {{range $i, $e := .Snippets}}{{if lt $i 1}}
-        <strong class="notes_preview_tittle">{{.Title}}</strong>
-        <pre><code>{{.Content}}</code></pre>
-        {{end}}{{end}}
-    </div>
-</div>
 {{end}}
