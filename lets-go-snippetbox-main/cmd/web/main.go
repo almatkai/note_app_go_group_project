@@ -30,7 +30,7 @@ type application struct {
 func main() {
 	addr := flag.String("addr", "localhost:4000", "HTTP network address") //
 	//dsn := flag.String("dsn", "postgresql://youruser:1234@localhost:5432/go_lang", "Postgres data source name")
-	dsn := flag.String("dsn", "postgres://web_user:1234@localhost:5432/snippetbox", "connection login to database")
+	dsn := flag.String("dsn", "postgres://youruser:1234@localhost:5432/go_lang", "connection login to database")
 	//my connection flag to db (Aizat)
 	flag.Parse()
 

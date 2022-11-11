@@ -19,6 +19,17 @@
 
         <header>
              <h1 class="apptitle"><a  href="/">Notes</a></h1>
+            <div>
+            {{if .IsAuthenticated}}
+            <form action='/user/logout' method='POST'>
+                <input type='hidden' name='csrf_token' value='{{.CSRFToken}}'>
+                <button  class="nav_links">Logout</button>
+            </form>
+            {{else}}
+            <a href='/user/signup' class="nav_links">Signup</a>
+            <a href='/user/login' class="nav_links">Login</a>
+            {{end}}
+        </div>
 
         <div class="twobuttons">
             {{if .IsAuthenticated}}
