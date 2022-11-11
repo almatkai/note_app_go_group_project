@@ -3,13 +3,11 @@ package main
 import (
 	"errors"
 	"fmt"
+	"github.com/julienschmidt/httprouter"
 	"net/http"
-	"strconv"
-
 	"snippetbox.eegurt.net/internal/models"
 	"snippetbox.eegurt.net/internal/validator"
-
-	"github.com/julienschmidt/httprouter"
+	"strconv"
 )
 
 func (app *application) home(w http.ResponseWriter, r *http.Request) {
@@ -26,6 +24,23 @@ func (app *application) home(w http.ResponseWriter, r *http.Request) {
 }
 
 func (app *application) snippetView(w http.ResponseWriter, r *http.Request) {
+	//params := httprouter.ParamsFromContext(r.Context())
+	//
+	//id, err := strconv.Atoi(params.ByName("id"))
+	//if err != nil || id < 1 {
+	//	app.notFound(w)
+	//	return
+	//}
+	//snippets, err := app.snippets.Get(r.Context(), id)
+	////if err != nil {
+	////	app.serverError(w, err)
+	////	return
+	////}
+	//
+	//data := app.newTemplateData(r)
+	//data.Snippets = snippets
+	//
+	//app.render(w, http.StatusOK, "view.html", data)
 	params := httprouter.ParamsFromContext(r.Context())
 
 	id, err := strconv.Atoi(params.ByName("id"))
@@ -44,7 +59,7 @@ func (app *application) snippetView(w http.ResponseWriter, r *http.Request) {
 	}
 	flash := app.sessionManager.PopString(r.Context(), "flash")
 	data := app.newTemplateData(r)
-	data.Snippet = snippet
+	data.Snippets = snippet
 
 	data.Flash = flash
 

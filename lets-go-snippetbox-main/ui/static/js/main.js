@@ -6,3 +6,11 @@ for (var i = 0; i < navLinks.length; i++) {
 		break;
 	}
 }
+var active = document.querySelectorAll(".note");
+active[0].classList.add("live1")
+active[0].firstElementChild.classList.add("live2");
+// active[0].firstElementChild.classList.add("ab")
+// document.querySelectorAll("#list-notes").
+// active[i].addEventListener("mouseover", function () {
+// 	this.firstChild.classList.add("ab");
+// });

@@ -4,18 +4,20 @@
     <div class="notes">
         <div class="note_sidebar">
             {{template "nav" .}}
-                <h2>Latest Notes</h2>
-                {{if .Snippets}}
+                <div id="list-notes">
+                    {{if .Snippets}}
                     {{range .Snippets}}
-                        <div class="note">
-                            <div><a href='/snippet/view/{{.ID}}' class="note_tittle">{{.Title}}</a></div>
-<!--                            <td class = "id">#{{.ID}}</td>-->
-                            <td>{{.Created | humanDate}}</td>
-                        </div>
+                    <div class="note">
+                        <a href='/snippet/view/{{.ID}}' id="note_tittle">{{.Title}}</a>
+                        <br>
+
+                        <td>{{.Created | humanDate}}</td>
+                    </div>
                     {{end}}
-                {{else}}
+                    {{else}}
                     <p>There's nothing to see here... yet!</p>
-                {{end}}
+                    {{end}}
+                </div>
         </div>
         <div class="notes_preview">
             {{range $i, $e := .Snippets}}{{if lt $i 1}}

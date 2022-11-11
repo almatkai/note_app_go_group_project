@@ -4,11 +4,18 @@ import (
 	"bytes"
 	"errors"
 	"fmt"
-	"net/http"
-	"runtime/debug"
-
 	"github.com/go-playground/form/v4"
+	"html/template"
+	"net/http"
+	"reflect"
+	"runtime/debug"
 )
+
+var fns = template.FuncMap{
+	"last": func(x int, a interface{}) bool {
+		return x == reflect.ValueOf(a).Len()-1
+	},
+}
 
 func (app *application) serverError(w http.ResponseWriter, err error) {
 	trace := fmt.Sprintf("%s\n%s", err.Error(), debug.Stack())
