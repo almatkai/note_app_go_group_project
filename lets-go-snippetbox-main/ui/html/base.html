@@ -1,54 +1,41 @@
 {{define "base"}}
-<!DOCTYPE html>
-<html lang="en">
+    <!DOCTYPE html>
+    <html lang="en">
     <head>
         <meta charset="utf-8" />
         <title>{{template "title" .}} - My Notes</title>
         <link rel="stylesheet" href="/static/css/main.css" />
         <link
-            rel="shortcut icon"
-            href="/static/img/favicon.ico"
-            type="image/x-icon"
+                rel="shortcut icon"
+                href="/static/img/favicon.ico"
+                type="image/x-icon"
         />
         <link
-            rel="stylesheet"
-            href="https://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700"
+                rel="stylesheet"
+                href="https://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700"
         />
     </head>
     <body>
-
         <header>
-             <h1 class="apptitle"><a  href="/">Notes</a></h1>
-            <div>
-            {{if .IsAuthenticated}}
-            <form action='/user/logout' method='POST'>
-                <input type='hidden' name='csrf_token' value='{{.CSRFToken}}'>
-                <button  class="nav_links">Logout</button>
-            </form>
-            {{else}}
-            <a href='/user/signup' class="nav_links">Signup</a>
-            <a href='/user/login' class="nav_links">Login</a>
-            {{end}}
-        </div>
-
-        <div class="twobuttons">
-            {{if .IsAuthenticated}}
-            <form action='/user/logout' method='POST'>
-                <input type='hidden' name='csrf_token' value='{{.CSRFToken}}'>
-                <button>Logout</button>
-            </form>
-            {{else}}
-            <a class="button" href='/user/signup'>Signup</a>
-            <a class="button" href='/user/login'>Login</a>
-            {{end}}
-        </div>
+            <div class="twobuttons">
+                <h1 class="apptitle"><a  href="/">Notes</a></h1>
+                {{if .IsAuthenticated}}
+                    <form action='/user/logout' method='POST'>
+                        <input type='hidden' name='csrf_token' value='{{.CSRFToken}}'>
+                        <input class="submit_button" type="submit" value="Logout"></input>
+                    </form>
+                {{else}}
+                    <a class="button" href='/user/signup'>Signup</a>
+                    <a class="button" href='/user/login'>Login</a>
+                {{end}}
+            </div>
 
         </header>
         <main>
-             {{with .Flash}}
-             <div class="flash">{{.}}</div>
-             {{end}}
-             {{template "main" .}}
+            {{with .Flash}}
+                <div class="flash">{{.}}</div>
+            {{end}}
+            {{template "main" .}}
         </main>
 
         <footer>
@@ -57,5 +44,5 @@
 
         <script src="/static/js/main.js" type="text/javascript"></script>
     </body>
-</html>
+    </html>
 {{end}}

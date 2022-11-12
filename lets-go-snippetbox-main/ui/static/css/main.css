@@ -23,8 +23,8 @@ body {
 
 
 /*header, nav,*/ main, footer {
-    padding: 40px;
-}
+                     padding: 40px;
+                 }
 
 /*main {*/
 /*    margin-top: 54px;*/
@@ -92,8 +92,8 @@ nav {
     border-bottom: 1px solid #E4E5E7;
     padding: 20px;
     background: #F7F9FA;
-   height: 60px;
-   color: #6A6C6F;
+    height: 60px;
+    color: #6A6C6F;
 }
 
 nav a {
@@ -151,7 +151,7 @@ a.button, input[type="submit"] {
     padding: 9px 27px;
     border: none;
     display: inline-block;
-    margin-top: 18px;
+    margin: 0 10px;
     font-weight: 700;
 }
 
@@ -387,22 +387,25 @@ footer {
 
     bottom: 0;
     width: 100%;
-     border-top: 1px solid #E4E5E7;
-     padding-top: 17px;
-     padding-bottom: 15px;
-     background: #F7F9FA;
-     height: 60px;
-     color: #6A6C6F;
-     text-align: center;
- }
+    border-top: 1px solid #E4E5E7;
+    padding-top: 17px;
+    padding-bottom: 15px;
+    background: #F7F9FA;
+    height: 60px;
+    color: #6A6C6F;
+    text-align: center;
+}
 
 .twobuttons {
+    display: flex;
+    width: 100%;
     float: right;
     padding: 30px;
     padding-top: 12px;
+    align-items: center;
 }
 
 .apptitle{
     display: inline;
-    margin-left:200px;
+    margin: 0 auto;
 }
