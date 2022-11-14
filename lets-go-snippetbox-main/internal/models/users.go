@@ -30,15 +30,9 @@ func (m *UserModel) Insert(name, email, password string) error {
 
 	_, err = m.DB.Exec(context.Background(), stmt, name, email, string(hashedPassword))
 	if err != nil {
-
-		//var pgErr *pgconn.PgError
-		//fmt.Println(pgErr)
-		//if errors.As(err, &myError) {
-		//	if myError.Code == "23505" && strings.Contains(myError.Message, "users_uc_email") {
-		//		return ErrDuplicateEmail
-		//	}
-		//}
-
+		if errors.As(err, &ErrDuplicateEmail) {
+			return ErrDuplicateEmail
+		}
 		return err
 	}
 	return nil

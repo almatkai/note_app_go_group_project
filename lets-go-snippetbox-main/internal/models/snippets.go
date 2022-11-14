@@ -3,6 +3,7 @@ package models
 import (
 	"context"
 	"errors"
+	"fmt"
 	"github.com/jackc/pgx/v5"
 	"time"
 
@@ -21,14 +22,34 @@ type SnippetModel struct {
 	DB *pgxpool.Pool
 }
 
-func (m *SnippetModel) Insert(ctx context.Context, title string, content string, expires int) (int, error) {
+func (m *SnippetModel) Update(ctx context.Context, id int, title string, content string, expires int) (int, error) {
+	var snippetId int
+
+	query := `UPDATE snippets
+				SET title = $1,
+					content = $2,
+					expires = (SELECT expires FROM snippets WHERE id = $3) + INTERVAL '1 DAY' * $4
+				where id = $5
+				RETURNING id;`
+
+	err := m.DB.QueryRow(ctx, query, title, content, id, expires, id).Scan(&snippetId)
+
+	if err != nil {
+		fmt.Printf("Unable to Update: %v\n", err)
+		return 0, err
+	}
+
+	return snippetId, nil
+}
+
+func (m *SnippetModel) Insert(ctx context.Context, title string, content string, expires int, user_id int) (int, error) {
 	var id int
 
-	query := `INSERT INTO snippets (title, content, created, expires)
-	VALUES($1, $2, NOW(), NOW() + INTERVAL '1 DAY' * $3)
+	query := `INSERT INTO snippets (title, content, created, expires, user_id)
+	VALUES($1, $2, NOW(), NOW() + INTERVAL '1 DAY' * $3, $4)
 	RETURNING id`
 
-	err := m.DB.QueryRow(ctx, query, title, content, expires).Scan(&id)
+	err := m.DB.QueryRow(ctx, query, title, content, expires, user_id).Scan(&id)
 	if err != nil {
 		return 0, err
 	}
@@ -36,11 +57,14 @@ func (m *SnippetModel) Insert(ctx context.Context, title string, content string,
 	return id, nil
 }
 
-func (m *SnippetModel) Get(ctx context.Context, id int) ([]*Snippet, error) {
+func (m *SnippetModel) Get(ctx context.Context, id, user_id int) ([]*Snippet, error) {
+	if user_id == 0 {
+		fmt.Println("some error has occurred")
+	}
 	query := `SELECT id, title, content, created, expires FROM snippets
-	WHERE expires > NOW() and id <> $1
+	WHERE expires > NOW() and id <> $1 and user_id = $2
 	ORDER BY id DESC`
-	rows, err := m.DB.Query(ctx, query, id)
+	rows, err := m.DB.Query(ctx, query, id, user_id)
 	if err != nil {
 		return nil, err
 	}
@@ -49,8 +73,8 @@ func (m *SnippetModel) Get(ctx context.Context, id int) ([]*Snippet, error) {
 	snippets := []*Snippet{}
 	////////////////////////////////////////////////////////////////
 	queryId := `SELECT id, title, content, created, expires FROM snippets
-	WHERE expires > NOW() and id = $1`
-	row := m.DB.QueryRow(ctx, queryId, id)
+	WHERE expires > NOW() and id = $1 and user_id = $2`
+	row := m.DB.QueryRow(ctx, queryId, id, user_id)
 
 	sID := &Snippet{}
 	err = row.Scan(&sID.ID, &sID.Title, &sID.Content, &sID.Created, &sID.Expires)
@@ -76,12 +100,37 @@ func (m *SnippetModel) Get(ctx context.Context, id int) ([]*Snippet, error) {
 	}
 
 	return snippets, nil
+
 }
-func (m *SnippetModel) Latest(ctx context.Context) ([]*Snippet, error) {
+
+func (m *SnippetModel) GetById(id int) (*Snippet, error) {
+	query := `SELECT id, title, content, created, expires FROM snippets 
+				WHERE expires > NOW() AND id = $1`
+
+	row := m.DB.QueryRow(context.Background(), query, id)
+	s := &Snippet{}
+
+	err := row.Scan(&s.ID, &s.Title, &s.Content, &s.Created, &s.Expires)
+
+	if err != nil {
+		if errors.Is(err, pgx.ErrNoRows) {
+			return nil, ErrNoRecord
+		} else {
+			return nil, err
+		}
+	}
+
+	return s, nil
+}
+
+func (m *SnippetModel) Latest(ctx context.Context, user_id int) ([]*Snippet, error) {
+	if user_id == 0 {
+		fmt.Println("some error has occurred")
+	}
 	query := `SELECT id, title, content, created, expires FROM snippets
-	WHERE expires > NOW() 
+	WHERE expires > NOW() and user_id = $1
 	ORDER BY id DESC`
-	rows, err := m.DB.Query(ctx, query)
+	rows, err := m.DB.Query(ctx, query, user_id)
 	if err != nil {
 		return nil, err
 	}
